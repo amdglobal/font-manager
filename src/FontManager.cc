@@ -1,8 +1,8 @@
-#include <stdlib.h>
+#include <nan.h>
 #include <node.h>
+#include <stdlib.h>
 #include <uv.h>
 #include <v8.h>
-#include <nan.h>
 #include "FontDescriptor.h"
 
 using namespace v8;
@@ -211,14 +211,14 @@ NAN_METHOD(substituteFont) {
 }
 
 NAN_MODULE_INIT(Init) {
-  Nan::Export(target, "getAvailableFonts", getAvailableFonts<true>);
-  Nan::Export(target, "getAvailableFontsSync", getAvailableFonts<false>);
-  Nan::Export(target, "findFonts", findFonts<true>);
-  Nan::Export(target, "findFontsSync", findFonts<false>);
-  Nan::Export(target, "findFont", findFont<true>);
-  Nan::Export(target, "findFontSync", findFont<false>);
-  Nan::Export(target, "substituteFont", substituteFont<true>);
-  Nan::Export(target, "substituteFontSync", substituteFont<false>);
+    Nan::Export(target, "getAvailableFonts", getAvailableFonts<true>);
+    Nan::Export(target, "getAvailableFontsSync", getAvailableFonts<false>);
+    Nan::Export(target, "findFonts", findFonts<true>);
+    Nan::Export(target, "findFontsSync", findFonts<false>);
+    Nan::Export(target, "findFont", findFont<true>);
+    Nan::Export(target, "findFontSync", findFont<false>);
+    Nan::Export(target, "substituteFont", substituteFont<true>);
+    Nan::Export(target, "substituteFontSync", substituteFont<false>);
 }
 
 NODE_MODULE(fontmanager, Init)
