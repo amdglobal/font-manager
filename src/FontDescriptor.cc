@@ -122,7 +122,7 @@ bool FontDescriptor::getBool(Local<Object> obj, const char* name) {
     Local<Value>     value = obj->Get(Nan::New<String>(name).ToLocalChecked());
 
     if (value->IsBoolean()) {
-        return value->BooleanValue(Isolate::GetCurrent());
+        return value->BooleanValue(Nan::GetCurrentContext()).FromJust();
     }
 
     return false;
