@@ -8,6 +8,7 @@
     "install": "cmake-js compile"
   },
   "devDependencies": {
+    "cmake-js": "^6.0.0",
     "mocha": "*"
   },
   "directories": {
