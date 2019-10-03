@@ -15,27 +15,25 @@ FontDescriptor *substituteFont(char *, char *);
 
 // converts a ResultSet to a JavaScript array
 Local<Array> collectResults(ResultSet *results) {
-  Nan::EscapableHandleScope scope;
-  Local<Array> res = Nan::New<Array>(results->size());
+    Local<Array>              res = Nan::New<Array>(results->size());
 
-  int i = 0;
-  for (ResultSet::iterator it = results->begin(); it != results->end(); it++) {
-    res->Set(i++, (*it)->toJSObject());
-  }
+    int i = 0;
+    for (ResultSet::iterator it = results->begin(); it != results->end(); it++) {
+        Nan::Set(res, i++, (*it)->toJSObject());
+    }
 
   delete results;
-  return scope.Escape(res);
+  return res;
 }
 
 // converts a FontDescriptor to a JavaScript object
 Local<Value> wrapResult(FontDescriptor *result) {
-  Nan::EscapableHandleScope scope;
-  if (result == NULL)
-    return scope.Escape(Nan::Null());
+    if (result == NULL)
+        return Nan::Null();
 
-  Local<Object> res = result->toJSObject();
-  delete result;
-  return scope.Escape(res);
+    Local<Object> res = result->toJSObject();
+    delete result;
+    return res;
 }
 
 // holds data about an operation that will be

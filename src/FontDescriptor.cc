@@ -71,19 +71,22 @@ FontDescriptor::~FontDescriptor() {
 }
 
 Local<Object> FontDescriptor::toJSObject() {
-    Nan::EscapableHandleScope scope;
     Local<Object>             res = Nan::New<Object>();
-    res->Set(Nan::New<String>("path").ToLocalChecked(), Nan::New<String>(path).ToLocalChecked());
-    res->Set(Nan::New<String>("postscriptName").ToLocalChecked(),
+    Nan::Set(
+        res, Nan::New<String>("path").ToLocalChecked(), Nan::New<String>(path).ToLocalChecked());
+    Nan::Set(res,
+             Nan::New<String>("postscriptName").ToLocalChecked(),
              Nan::New<String>(postscriptName).ToLocalChecked());
-    res->Set(Nan::New<String>("family").ToLocalChecked(),
+    Nan::Set(res,
+             Nan::New<String>("family").ToLocalChecked(),
              Nan::New<String>(family).ToLocalChecked());
-    res->Set(Nan::New<String>("style").ToLocalChecked(), Nan::New<String>(style).ToLocalChecked());
-    res->Set(Nan::New<String>("weight").ToLocalChecked(), Nan::New<Number>(weight));
-    res->Set(Nan::New<String>("width").ToLocalChecked(), Nan::New<Number>(width));
-    res->Set(Nan::New<String>("italic").ToLocalChecked(), Nan::New<v8::Boolean>(italic));
-    res->Set(Nan::New<String>("monospace").ToLocalChecked(), Nan::New<v8::Boolean>(monospace));
-    return scope.Escape(res);
+    Nan::Set(
+        res, Nan::New<String>("style").ToLocalChecked(), Nan::New<String>(style).ToLocalChecked());
+    Nan::Set(res, Nan::New<String>("weight").ToLocalChecked(), Nan::New<Number>(weight));
+    Nan::Set(res, Nan::New<String>("width").ToLocalChecked(), Nan::New<Number>(width));
+    Nan::Set(res, Nan::New<String>("italic").ToLocalChecked(), Nan::New<v8::Boolean>(italic));
+    Nan::Set(res, Nan::New<String>("monospace").ToLocalChecked(), Nan::New<v8::Boolean>(monospace));
+    return res;
 }
 
 char* FontDescriptor::copyString(const char* input) {
@@ -97,10 +100,10 @@ char* FontDescriptor::copyString(const char* input) {
 
 char* FontDescriptor::getString(Local<Object> obj, const char* name) {
     Nan::HandleScope scope;
-    Local<Value>     value = obj->Get(Nan::New<String>(name).ToLocalChecked());
+    MaybeLocal<Value> value = Nan::Get(obj, Nan::New<String>(name).ToLocalChecked());
 
-    if (value->IsString()) {
-        return copyString(*Nan::Utf8String(value));
+    if (!value.IsEmpty() && value.ToLocalChecked()->IsString()) {
+        return copyString(*Nan::Utf8String(value.ToLocalChecked()));
     }
 
     return NULL;
@@ -108,10 +111,10 @@ char* FontDescriptor::getString(Local<Object> obj, const char* name) {
 
 int FontDescriptor::getNumber(Local<Object> obj, const char* name) {
     Nan::HandleScope scope;
-    Local<Value>     value = obj->Get(Nan::New<String>(name).ToLocalChecked());
+    MaybeLocal<Value> value = Nan::Get(obj, Nan::New<String>(name).ToLocalChecked());
 
-    if (value->IsNumber()) {
-        return value->Int32Value(Nan::GetCurrentContext()).FromJust();
+    if (!value.IsEmpty() && value.ToLocalChecked()->IsNumber()) {
+        return value.ToLocalChecked()->Int32Value(Nan::GetCurrentContext()).FromJust();
     }
 
     return 0;
@@ -119,10 +122,10 @@ int FontDescriptor::getNumber(Local<Object> obj, const char* name) {
 
 bool FontDescriptor::getBool(Local<Object> obj, const char* name) {
     Nan::HandleScope scope;
-    Local<Value>     value = obj->Get(Nan::New<String>(name).ToLocalChecked());
+    MaybeLocal<Value> value = Nan::Get(obj, Nan::New<String>(name).ToLocalChecked());
 
-    if (value->IsBoolean()) {
-        return value->BooleanValue(Nan::GetCurrentContext()).FromJust();
+    if (!value.IsEmpty() && value.ToLocalChecked()->IsBoolean()) {
+        return value.ToLocalChecked()->BooleanValue(Nan::GetCurrentContext()).FromJust();
     }
 
     return false;
