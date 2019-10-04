@@ -1,8 +1,8 @@
 #ifndef FONT_DESCRIPTOR_H
 #define FONT_DESCRIPTOR_H
 /* #include <nan.h> */
-#include <node/node.h>
-#include <node/v8.h>
+#include <node.h>
+#include <v8.h>
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
