@@ -8,6 +8,8 @@
     "install": "cmake-js compile"
   },
   "devDependencies": {
+    "bluebird": "^3.7.2",
+    "cmake-js": "^6.1.0",
     "mocha": "*"
   },
   "directories": {
@@ -32,7 +34,6 @@
   },
   "homepage": "https://github.com/devongovett/font-manager",
   "dependencies": {
-    "cmake-js": "^6.0.0",
     "nan": "^2.14.0"
   }
 }
