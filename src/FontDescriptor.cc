@@ -123,10 +123,16 @@ int FontDescriptor::getNumber(Local<Object> obj, const char* name) {
 bool FontDescriptor::getBool(Local<Object> obj, const char* name) {
     Nan::HandleScope scope;
     MaybeLocal<Value> value = Nan::Get(obj, Nan::New<String>(name).ToLocalChecked());
+    Local<Value> checked;
 
-    if (!value.IsEmpty() && value.ToLocalChecked()->IsBoolean()) {
-        return value.ToLocalChecked()->BooleanValue(Nan::GetCurrentContext()).FromJust();
+    if (!value.IsEmpty()) {
+        checked = value.ToLocalChecked();
+        if (checked->IsBoolean()) {
+            return checked->BooleanValue(Nan::GetCurrentContext()->GetIsolate());
+        } else {
+            return false;
+        }
+    } else {
+        return false;
     }
-
-    return false;
 }
